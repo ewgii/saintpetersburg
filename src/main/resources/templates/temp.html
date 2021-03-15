@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Привет мир!</title>
+</head>
+<body>
+
+<div th:switch="${tempModelsMessage}">
+    <h2 th:case="null">Not found!</h2>
+    <div th:case="*">
+        <h3>Это наш учебный проект</h3>
+        <table>
+            <tbody>
+            <tr th:each="tempModelMessage : ${tempModelsMessage}">
+                <td th:text="${tempModelMessage.id}"></td>
+                <td th:text="${tempModelMessage.message}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>
