@@ -13,7 +13,7 @@ import java.util.List;
 
 //@Controller
 //@CrossOrigin(origins = "http://localhost:3000")
-@CrossOrigin(origins = "https://task-tracker-lc-2021.herokuapp.com/tempModelsMessage")
+@CrossOrigin(origins = "https://task-tracker-lc-2021.herokuapp.com")
 @RestController
 public class TempController {
 
