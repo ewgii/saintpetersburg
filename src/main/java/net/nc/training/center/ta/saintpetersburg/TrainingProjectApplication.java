@@ -21,7 +21,7 @@ public class TrainingProjectApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:8080", "https://task-tracker-lc-2021.herokuapp.com");
+						.allowedOrigins("http://localhost:8080", "https://saintpetersburgfront.vercel.app");
 			}
 		};
 	}
