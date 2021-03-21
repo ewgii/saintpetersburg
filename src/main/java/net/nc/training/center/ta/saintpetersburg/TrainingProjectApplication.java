@@ -20,7 +20,8 @@ public class TrainingProjectApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**");
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:8080", "https://task-tracker-lc-2021.herokuapp.com");
 			}
 		};
 	}
