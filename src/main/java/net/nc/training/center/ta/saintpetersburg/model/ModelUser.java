@@ -3,6 +3,8 @@ package net.nc.training.center.ta.saintpetersburg.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,4 +22,7 @@ public class ModelUser {
 
     @Column
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    protected Set<ModelTask> userTasks = new HashSet<>();
 }
