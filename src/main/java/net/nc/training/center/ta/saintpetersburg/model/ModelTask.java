@@ -26,13 +26,13 @@ public class ModelTask {
     private LocalDate deadline;
 
     @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private StatusTask status;
 
     @Column
     private LocalDate date_archived;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn (name="user_id")
     private ModelUser user;
 }
