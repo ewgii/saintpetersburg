@@ -5,9 +5,9 @@ import net.nc.training.center.ta.saintpetersburg.model.StatusTask;
 import net.nc.training.center.ta.saintpetersburg.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,60 +26,32 @@ public class TaskService {
     }
 
     public List<ModelTask> findAllArchived() {
-        return taskRepository.findAllByStatusEquals(StatusTask.CLOSE);
+        return taskRepository.findAllByStatusEquals(StatusTask.ARCHIVED);
     }
 
-    public ModelTask findTask(String name) {
-        return taskRepository.findModelTaskByName(name);
+    public ModelTask findTaskById(Long id) {
+        return taskRepository.findModelTaskById(id);
     }
 
-    public void addTask(ModelTask modelTask) {
+    public ModelTask addTask(ModelTask modelTask) {
         ModelTask modelTaskFromDB = taskRepository.findModelTaskByName(modelTask.getName());
-
         if (modelTaskFromDB != null) {
-            return;
+            return null;
         }
-
         modelTask.setCreate_date(LocalDate.now());
-        taskRepository.save(modelTask);
+        return taskRepository.save(modelTask);
     }
 
-    public void deleteTask(ModelTask modelTask) {
-        taskRepository.delete(modelTask);
+    @Transactional
+    public void deleteTask(Long id) {
+        taskRepository.deleteModelTaskById(id);
     }
 
-    public void updateTask(ModelTask modelTask) {
-        ModelTask modelTaskFromDB = taskRepository.findModelTaskByName(modelTask.getName());
-
+    public ModelTask updateTask(ModelTask modelTask) {
+        ModelTask modelTaskFromDB = taskRepository.findModelTaskById(modelTask.getId());
         if (modelTaskFromDB == null) {
-            return;
+            return null;
         }
-
-        // if для переноса задачи в архив
-        if (modelTask.getStatus().equals(StatusTask.ARCHIVED)) {
-            modelTaskFromDB.setStatus(StatusTask.ARCHIVED);
-            modelTaskFromDB.setDate_archived(LocalDate.now());
-            return;
-        }
-
-        // if для переноса задачи из архива
-        if (modelTask.getStatus().equals(StatusTask.OPEN)
-                && modelTaskFromDB.getStatus().equals(StatusTask.ARCHIVED)) {
-            modelTaskFromDB.setStatus(StatusTask.OPEN);
-            modelTaskFromDB.setDate_archived(LocalDate.now());
-            return;
-        }
-
-        // if для закрытия задачи
-        if (modelTask.getStatus().equals(StatusTask.CLOSE)) {
-            modelTaskFromDB.setStatus(StatusTask.CLOSE);
-            return;
-        }
-
-        modelTaskFromDB.setName(modelTask.getName());
-        modelTaskFromDB.setDescription(modelTask.getDescription());
-        modelTaskFromDB.setDeadline(modelTask.getDeadline());
-
-        taskRepository.save(modelTaskFromDB);
+        return taskRepository.save(modelTask);
     }
 }

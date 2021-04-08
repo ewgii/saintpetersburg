@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 public class TaskController {
 
@@ -21,8 +23,8 @@ public class TaskController {
 
     @GetMapping("/projects")
     // перепишется, тк нужно выводить список проектов с количеством задач в каждом
-    public List<ModelTask> findAllProjects() {
-        return this.taskService.findAllOpenTask();
+    public ResponseEntity<List<ModelTask>> findAllProjects() {
+        return ok().body(taskService.findAllOpenTask());
     }
 
     @GetMapping("/projects/archived")
@@ -30,29 +32,37 @@ public class TaskController {
         return this.taskService.findAllArchived();
     }
 
-    @GetMapping("/projects/{name}")
-    public ModelTask getModelTask(@PathVariable String name) {
-        return taskService.findTask(name);
+    @GetMapping("/projects/{id}")
+    public ModelTask getModelTask(@PathVariable Long id) {
+        return taskService.findTaskById(id);
     }
 
     @PostMapping("/project")
     @ResponseBody
     public ResponseEntity<?> addTask(@RequestBody ModelTask modelTask) {
-        taskService.addTask(modelTask);
+        ModelTask addTask = taskService.addTask(modelTask);
+        if (addTask == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(modelTask, HttpStatus.CREATED);
     }
 
-    @PutMapping("/projects/{name}")
+    @PutMapping("/projects")
     @ResponseBody
     public ResponseEntity<?> updateTask(@RequestBody ModelTask modelTask) {
-        taskService.updateTask(modelTask);
+        ModelTask updateTask = taskService.updateTask(modelTask);
+        if (updateTask == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/projects/{name}")
-    @ResponseBody
-    public ResponseEntity<?> deleteTask(@RequestBody ModelTask modelTask) {
-        taskService.deleteTask(modelTask);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/projects/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long id) {
+        if (taskService.findTaskById(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        taskService.deleteTask(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
