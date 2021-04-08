@@ -23,6 +23,6 @@ public class ModelUser {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     protected Set<ModelTask> userTasks = new HashSet<>();
 }
