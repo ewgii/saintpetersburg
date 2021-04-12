@@ -19,7 +19,8 @@ public class TrainingProjectApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000", "https://saintpetersburgfront.vercel.app", "https://saintpetersburgfront-audg0esr1-ewgii.vercel.app");
+						.allowedOrigins("http://localhost:3000",
+								"https://saintpetersburgfront-911bf4du3-ewgii.vercel.app/");
 			}
 		};
 	}
