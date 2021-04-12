@@ -24,5 +24,5 @@ public class ModelUser {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    protected Set<ModelTask> userTasks = new HashSet<>();
+    protected Set<Project> userTasks = new HashSet<>();
 }
