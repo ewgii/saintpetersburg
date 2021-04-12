@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "task")
-public class ModelTask {
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,8 +19,8 @@ public class ModelTask {
     @Column
     private String description;
 
-    @Column(updatable = false)
-    private LocalDate create_date;
+    @Column(updatable = false, name = "create_date")
+    private LocalDate createDate;
 
     @Column
     private LocalDate deadline;
@@ -29,10 +29,10 @@ public class ModelTask {
     @Enumerated(EnumType.STRING)
     private StatusTask status;
 
-    @Column
-    private LocalDate date_archived;
+    @Column(name = "date_archived")
+    private LocalDate dateArchived;
 
     @ManyToOne
-    @JoinColumn (name="user_id")
+    @JoinColumn(name = "user_id")
     private ModelUser user;
 }

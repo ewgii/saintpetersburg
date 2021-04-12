@@ -1,8 +1,8 @@
 package net.nc.training.center.ta.saintpetersburg.service;
 
-import net.nc.training.center.ta.saintpetersburg.model.ModelTask;
+import net.nc.training.center.ta.saintpetersburg.model.Project;
 import net.nc.training.center.ta.saintpetersburg.model.StatusTask;
-import net.nc.training.center.ta.saintpetersburg.repository.TaskRepository;
+import net.nc.training.center.ta.saintpetersburg.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,44 +11,45 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class TaskService {
+public class ProjectService {
 
-    private final TaskRepository taskRepository;
+    private final ProjectRepository taskRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public ProjectService(ProjectRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
 
-    public List<ModelTask> findAllOpenTask() {
+    public List<Project> findAllOpenTask() {
         return taskRepository.findAllByStatusEquals(StatusTask.OPEN);
     }
 
-    public List<ModelTask> findAllArchived() {
+    public List<Project> findAllArchived() {
         return taskRepository.findAllByStatusEquals(StatusTask.ARCHIVED);
     }
 
-    public ModelTask findTaskById(Long id) {
+    public Project findTaskById(Long id) {
         return taskRepository.findModelTaskById(id);
     }
 
-    public ModelTask addTask(ModelTask modelTask) {
-        ModelTask modelTaskFromDB = taskRepository.findModelTaskByName(modelTask.getName());
+    public Project addTask(Project modelTask) {
+        Project modelTaskFromDB = taskRepository.findModelTaskByName(modelTask.getName());
         if (modelTaskFromDB != null) {
             return null;
         }
-        modelTask.setCreate_date(LocalDate.now());
+        modelTask.setCreateDate(LocalDate.now());
+        modelTask.setStatus(StatusTask.OPEN);
         return taskRepository.save(modelTask);
     }
 
     @Transactional
     public void deleteTask(Long id) {
-        taskRepository.deleteModelTaskById(id);
+        taskRepository.deleteById(id);
     }
 
-    public ModelTask updateTask(ModelTask modelTask) {
-        ModelTask modelTaskFromDB = taskRepository.findModelTaskById(modelTask.getId());
+    public Project updateTask(Project modelTask) {
+        Project modelTaskFromDB = taskRepository.findModelTaskById(modelTask.getId());
         if (modelTaskFromDB == null) {
             return null;
         }
