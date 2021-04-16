@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "task")
+@Table(name = "project")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Project {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private StatusTask status;
+    private StatusProject status;
 
     @Column(name = "date_archived")
     private LocalDate dateArchived;
