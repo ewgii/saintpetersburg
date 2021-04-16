@@ -1,5 +1,5 @@
 package net.nc.training.center.ta.saintpetersburg.model;
 
-public enum StatusTask {
+public enum StatusProject {
     OPEN, CLOSE, ARCHIVED
 }
