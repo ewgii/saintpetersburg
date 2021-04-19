@@ -9,7 +9,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "usr")
-public class ModelUser {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,5 +24,5 @@ public class ModelUser {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    protected Set<Project> userTasks = new HashSet<>();
+    protected Set<Project> userProjects = new HashSet<>();
 }
