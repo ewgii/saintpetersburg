@@ -28,12 +28,12 @@ public class ProjectController {
 
     @GetMapping("/archived")
     public List<Project> findAllArchivedProjects() {
-        return this.projectService.findAllArchived();
+        return projectService.findAllArchived();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProject(@PathVariable Long id) {
-        return new ResponseEntity<>(projectService.findProjectById(id), HttpStatus.CREATED);
+        return new ResponseEntity<>(projectService.findProjectById(id), HttpStatus.OK);
     }
 
     @PostMapping

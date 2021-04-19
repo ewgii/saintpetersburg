@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -34,5 +36,8 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private ModelUser user;
+    private User user;
+
+    @OneToMany(mappedBy = "project")
+    protected Set<Task> projectTasks = new HashSet<>();
 }
